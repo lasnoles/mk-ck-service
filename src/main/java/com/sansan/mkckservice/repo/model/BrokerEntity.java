@@ -1,17 +1,20 @@
 package com.sansan.mkckservice.repo.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.ToString;
+import lombok.*;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.PersistenceConstructor;
+import org.springframework.data.annotation.Transient;
+import org.springframework.data.domain.Persistable;
 import org.springframework.data.relational.core.mapping.Column;
+import org.springframework.data.relational.core.mapping.Table;
 
 import java.sql.Timestamp;
 
-@Getter
-@AllArgsConstructor
-@ToString
-public class Broker {
+@Table("broker")
+@Data
+@EqualsAndHashCode(exclude = {"isNew"})
+public class BrokerEntity implements Persistable<String> {
+
     @Id
     @Column("broker_code")
     private String brokerCode;
@@ -27,4 +30,17 @@ public class Broker {
     private Timestamp updatedOn;
     @Column("approved_on")
     private Timestamp approvedOn;
+
+    @Transient
+    private boolean isNew;
+
+    @Override
+    public String getId() {
+        return brokerCode;
+    }
+
+    public boolean isNew(){
+        return isNew;
+    }
+
 }

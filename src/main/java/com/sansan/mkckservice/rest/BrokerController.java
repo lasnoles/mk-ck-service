@@ -1,42 +1,28 @@
 package com.sansan.mkckservice.rest;
 
-import com.sansan.mkckservice.repo.BrokerRepository;
-import com.sansan.mkckservice.repo.model.Broker;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.sansan.mkckservice.rest.model.Broker;
+import com.sansan.mkckservice.service.BrokerService;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @RestController
-@RequestMapping(value = "/api/brokers")
+@RequestMapping(value = "/api/v1/brokers")
 public class BrokerController {
-    @Autowired
-    BrokerRepository brokerRepository;
+    private BrokerService brokerService;
 
     @GetMapping("")
     public Flux<Broker> getBrokers() {
-        return brokerRepository.findAll();
-
+        return null;//TODO
     }
 
     @PostMapping("")
-    public Mono<Broker> postBroker(@RequestBody Broker broker) {
-
-        return brokerRepository.save(broker);
+    public Mono<OperationStatus> postBroker(@RequestBody Broker broker) {
+        return brokerService.createBroker(broker, "TBA"/*TODO*/,true);
     }
 
     @PutMapping("")
-    public Mono<Broker> updateBroker(@RequestBody Broker broker) {
-        return brokerRepository.save(broker);
-    }
-
-    @DeleteMapping("")
-    public boolean deleteBroker(@RequestBody Broker broker) {
-        try {
-            brokerRepository.deleteById(broker.getBrokerCode()).block(); // Note this!
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
+    public Mono<OperationStatus> updateBroker(@RequestBody Broker broker) {
+        return brokerService.createBroker(broker, "TBA", false);
     }
 }
