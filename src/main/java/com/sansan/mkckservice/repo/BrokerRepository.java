@@ -7,4 +7,5 @@ import reactor.core.publisher.Flux;
 
 public interface BrokerRepository extends ReactiveCrudRepository<BrokerEntity, String> {
     Flux<BrokerEntity> findByBrokerCodeLike(String brokerCode, Pageable pageable);
+    Flux<BrokerEntity> findByBrokerCodeLike(String brokerCode);
 }

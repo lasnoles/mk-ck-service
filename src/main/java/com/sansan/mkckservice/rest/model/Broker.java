@@ -1,24 +1,32 @@
 package com.sansan.mkckservice.rest.model;
 
+import com.sansan.mkckservice.repo.model.BrokerEntity;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+
+import java.util.Date;
 import java.util.Objects;
 
+@RequiredArgsConstructor
+@Getter
+@Setter
 public class Broker {
     private String brokerCode;
     private String brokerName;
+    private String createdBy;
+    private Date createdOn;
+    private String approvedBy;
+    private Date approvedOn;
 
     public Broker(String brokerCode, String brokerName) {
         this.brokerCode = brokerCode;
         this.brokerName = brokerName;
     }
 
-    public String getBrokerCode() {
+    public String getKey() {
         return brokerCode;
     }
-
-    public String getBrokerName() {
-        return brokerName;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -30,5 +38,17 @@ public class Broker {
     @Override
     public int hashCode() {
         return Objects.hash(brokerCode, brokerName);
+    }
+
+    public static Broker buildBroker(BrokerEntity brokerEntity){
+        Broker broker = new Broker();
+        broker.brokerCode = brokerEntity.getBrokerCode();
+        broker.brokerName = brokerEntity.getBrokerName();
+        broker.createdBy = brokerEntity.getUpdatedBy();
+        broker.createdOn = brokerEntity.getUpdatedOn();
+        broker.approvedBy = brokerEntity.getApprovedBy();
+        broker.approvedOn = brokerEntity.getUpdatedOn();
+        return broker;
+
     }
 }
